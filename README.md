@@ -140,3 +140,29 @@ The sample catalog data is defined in [catalog.json](https://github.com/dotnet/e
 ## eShop on Azure
 
 For a version of this app configured for deployment on Azure, please view [the eShop on Azure](https://github.com/Azure-Samples/eShopOnAzure) repo.
+
+## Docker Image Pull from Hub
+```
+docker ps
+
+docker pull redis:latest
+
+docker run -d --name redis-latest -p 6379:6379 redis:latest
+
+docker pull rabbitmq:management
+
+docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:management
+
+docker pull postgres
+
+docker pull pgvector/pgvector:0.8.1-pg18-trixie
+
+docker run --name postgres -e POSTGRES_PASSWORD="yourWeak(!)Password" -e POSTGRES_USER=postgres -e POSTGRES_DB=WebHooksDB -p 5432:5432 -v postgres_data:/var/lib/postgresql -d postgres
+
+docker run --name postgres -e POSTGRES_PASSWORD="yourWeak(!)Password" -e POSTGRES_USER=postgres -e POSTGRES_DB=WebHooksDB -p 5432:5432 -v postgres_data:/var/lib/postgresql -d pgvector/pgvector:0.8.1-pg18-trixie
+
+CREATE database "WebHooksDB";
+CREATE database "CatalogDB";
+CREATE database "IdentityDB";
+CREATE database "OrderingDB";
+```
