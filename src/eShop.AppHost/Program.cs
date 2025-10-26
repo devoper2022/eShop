@@ -4,18 +4,21 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 builder.AddForwardedHeaders();
 
-var redis = builder.AddRedis("redis");
-var rabbitMq = builder.AddRabbitMQ("eventbus")
-    .WithLifetime(ContainerLifetime.Persistent);
-var postgres = builder.AddPostgres("postgres")
-    .WithImage("ankane/pgvector")
-    .WithImageTag("latest")
-    .WithLifetime(ContainerLifetime.Persistent);
+var redis = builder.AddConnectionString("Redis", "localhost:6379");
+var rabbitMq = builder.AddConnectionString("EventBus",
+    "amqp://guest:guest@localhost:5672");
 
-var catalogDb = postgres.AddDatabase("catalogdb");
-var identityDb = postgres.AddDatabase("identitydb");
-var orderDb = postgres.AddDatabase("orderingdb");
-var webhooksDb = postgres.AddDatabase("webhooksdb");
+var catalogDb = builder.AddConnectionString("CatalogDB",
+    "Host=localhost;Port=5432;Username=postgres;Password=ourWeak(!)Password;Database=CatalogDB");
+
+var identityDb = builder.AddConnectionString("IdentityDB",
+    "Host=localhost;Port=5432;Username=postgres;Password=ourWeak(!)Password;Database=IdentityDB");
+
+var orderDb = builder.AddConnectionString("OrderingDB",
+    "Host=localhost;Port=5432;Username=postgres;Password=ourWeak(!)Password;Database=OrderingDB");
+
+var webhooksDb = builder.AddConnectionString("WebHooksDB",
+    "Host=localhost;Port=5432;Username=postgres;Password=ourWeak(!)Password;Database=WebHooksDB");
 
 var launchProfileName = ShouldUseHttpForEndpoints() ? "http" : "https";
 
